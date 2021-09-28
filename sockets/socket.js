@@ -9,9 +9,9 @@ io.on('connection', client => {
         console.log('Cliente Desconectado');
     });
 
-    client.on('mensaje', (payload) => {
-        console.log('recibio mensaje!!!!', payload);
+    // client.on('mensaje', (payload) => {
+    //     console.log('recibio mensaje!!!!', payload);
 
-        io.emit('mensaje', { admin: 'Nuevo Mensaje' });
-    })
+    //     io.emit('mensaje', { admin: 'Nuevo Mensaje' });
+    // })
 });

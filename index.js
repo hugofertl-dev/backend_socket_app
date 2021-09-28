@@ -8,8 +8,15 @@ const path = require('path');
 //mi archivo .env
 require('dotenv').config();
 
+//DB Config
+require('./database/config').dbConnection();
+
+
 //Aca inicializo la App para poder utilizar y escuchar peticiones
 const app = express();
+
+//Lectura y parseo del body
+app.use(express.json());
 
 //Creo el Server Node
 const server = require('http').createServer(app);
@@ -17,12 +24,12 @@ module.exports.io = require('socket.io')(server);  //aca vinvulo el socket.io co
 require('./sockets/socket');
 
 
-//Mensajes de Sockets
-
 //Path público /Carpera publica
 const publicPath = path.resolve(__dirname, 'public');
 app.use(express.static(publicPath));
 
+//Mis Rutas
+app.use('/api/login', require('./routes/auth'));
 
 
 server.listen(process.env.PORT, (err) => {
