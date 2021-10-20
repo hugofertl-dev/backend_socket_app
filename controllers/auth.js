@@ -51,8 +51,8 @@ const login = async (req, res = response) => {
     const { email, password } = req.body;
     try {
 
-        const usuarioDB = await Usuario.findOne({ email });
-        if (!usuarioDB) {
+        const usuario = await Usuario.findOne({ email });
+        if (!usuario) {
             return res.status(404).json({
                 ok: false,
                 msg: 'Mail no encontado'
@@ -60,7 +60,7 @@ const login = async (req, res = response) => {
         }
 
         //Validar Password
-        const validarPassword = bcrypt.compareSync(password, usuarioDB.password);
+        const validarPassword = bcrypt.compareSync(password, usuario.password);
 
         if (!validarPassword) {
             return res.status(400).json({
@@ -72,11 +72,11 @@ const login = async (req, res = response) => {
         //Como paso todo bien es decir el usuario existe y la contraseña es correcta
         //genero el JWT
 
-        const token = await generarJWT(usuarioDB.id);
+        const token = await generarJWT(usuario.id);
 
         res.json({
             ok: true,
-            usuarioDB,
+            usuario,
             token
         });
 
